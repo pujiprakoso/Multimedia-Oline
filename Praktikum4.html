@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Drag and Drop Puzzle!</title>
+
+
+  <style>
+    
+body {
+  background:#6b6b69;
+  color:white;
+}
+
+.info {
+  position:relative;
+  font-family:Arial;
+  margin:10px;
+  text-align:center;
+  border-radius:5px;
+  font-size:15px;
+}
+
+#title {
+  font-size:20px;
+}
+
+#rest2 {
+  font-size:13px;
+}
+
+#text div {
+  position:relative;
+  height: 200px;
+  width: 200px;
+  border: 1px dashed gray;
+  display: inline-block;
+  margin: 0;
+}
+
+#text {
+  width:614px;
+  height:614px;
+  background:black;
+  border:5px solid black;
+  margin:auto;
+}
+
+#images {
+  width: 100%
+}
+
+img {
+  height: 200px;
+  width: 200px;
+}
+
+#drag4,
+#drag5,
+#drag6,
+#drag7,
+#drag8,
+#drag9,
+#drag10,
+#drag11,
+#drag12 {
+  height: 200px;
+  width: 200px;
+  
+  display: inline-block;
+}
+
+#drag4 {
+ background-image: url('images/1.jpg');
+}
+
+#drag5 {
+ background-image: url('images/2.jpg');
+}
+
+#drag6 {
+ background-image: url('images/3.jpg');
+}
+
+#drag7 {
+ background-image: url('images/4.jpg');
+}
+
+#drag8 {
+ background-image: url('images/5.jpg');
+}
+
+#drag9 {
+ background-image: url('images/6.jpg');
+}
+
+#drag10 {
+ background-image: url('images/7.jpg');
+}
+
+#drag11 {
+ background-image: url('images/8.jpg');
+}
+
+#drag12 {
+ background-image: url('images/9.jpg');
+}
+
+
+
+#div1
+ {
+ background-image: url('images/10.jpg');
+}
+#div2
+ {
+ background-image: url('images/11.jpg');
+}
+#div3
+ {
+ background-image: url('images/12.jpg');
+}
+#div4
+ {
+ background-image: url('images/13.jpg');
+}
+#div5
+ {
+ background-image: url('images/14.jpg');
+}
+#div6
+ {
+ background-image: url('images/15.jpg');
+}
+#div7
+ {
+ background-image: url('images/16.jpg');
+}
+#div8
+ {
+ background-image: url('images/17.jpg');
+}
+#div9
+ {
+ background-image: url('images/18.jpg');
+}
+
+  </style>
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="info">
+  <div id="title">PUZZLE</div>
+  <div id="rest"> PRAKTIKUM MULTIMEDIA ONLINE </div>
+  <div id="rest2">YES AJA</div>
+</div>
+
+<div id="images">
+  <div id="drag4" draggable="true" ondragstart="drag(event)"></div>
+  <div id="drag5" draggable="true" ondragstart="drag(event)"></div>
+  <div id="drag6" draggable="true" ondragstart="drag(event)"></div>
+  <div id="drag7" draggable="true" ondragstart="drag(event)"></div>
+  <div id="drag8" draggable="true" ondragstart="drag(event)"></div>
+  <div id="drag9" draggable="true" ondragstart="drag(event)"></div>
+  <div id="drag10" draggable="true" ondragstart="drag(event)"></div>
+  <div id="drag11" draggable="true" ondragstart="drag(event)"></div>
+  <div id="drag12" draggable="true" ondragstart="drag(event)"></div>
+</div>
+
+<div id="text">
+  <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+  <div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+  <div id="div3" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+  <div id="div4" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+  <div id="div5" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+  <div id="div6" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+  <div id="div7" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+  <div id="div8" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+  <div id="div9" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+</div>
+
+<div class="info"><p>Kehidupan kita sama seperti puzzel ,<br> Akan terlihat indah jika di susun dengan benar <br> BY :  puji prakoso <br> 1700016040 <p></div>
+<!-- partial -->
+  <script >
+    function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    ev.target.appendChild(document.getElementById(data));
+}
+
+  </script>
+
+</body>
+</html>
