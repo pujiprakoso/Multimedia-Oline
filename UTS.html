@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Tugas UTS</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel="stylesheet" href="./style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+<style>
+  body{
+  counter-reset:birds;
+  -webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+  overflow:hidden;
+    margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+
+canvas {
+  border-radius: .4em;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  display: flex;
+  min-height: 100vh;
+  background-size: 100px ;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+/*hide checkbox*/
+input{position:fixed; left:-10px; top:-10px;}
+
+h1{ font-size: 20px ; text-align:right;}
+
+h2{position:fixed; right:20px; bottom:0; font-size:18px; color:red;}
+p{
+  position:fixed; 
+  right:20px; 
+  top: 3%; 
+  text-align: center; 
+  bottom:0;
+  font-size:18px;
+  background-color:#C0C0C0 ;
+  border: 1px solid #000 ;
+  color:red;
+
+  width :200px;
+} 
+
+
+/*play area*/
+.wrapper{  
+  height:500px;
+  background: -webkit-linear-gradient(top, hsla(210,70%,80%,1) 0%,hsla(210,50%,100%,1) 100%);
+  position:relative;
+  cursor:crosshair;
+}
+/*count dead birds*/
+.input-circle:checked{
+  counter-increment:birds;
+}
+
+.sum{position:fixed; left:42%; top:50px; font-size:24px; fonot-weight:bold;}
+
+/*print to screen dead birds*/
+.sum:after{
+  content: counter(birds);
+}
+
+.input-circle ~ .pajaro{
+  opacity:0;
+  transition:0.3s  cubic-bezier(0,.43,1,0);
+  animation: move 8s infinite alternate;
+}
+.input-circle1:not(:checked) ~ .pajaro1,
+.input-circle2:not(:checked) ~ .pajaro2,
+.input-circle3:not(:checked) ~ .pajaro3,
+.input-circle4:not(:checked) ~ .pajaro4,
+.input-circle5:not(:checked) ~ .pajaro5,
+.input-circle6:not(:checked) ~ .pajaro6
+{
+  opacity:1; 
+}
+
+
+.input-circle1:checked ~ .pajaro1 span,
+.input-circle2:checked ~ .pajaro2 span,
+.input-circle3:checked ~ .pajaro3 span,
+.input-circle4:checked ~ .pajaro4 span,
+.input-circle5:checked ~ .pajaro5 span,
+.input-circle6:checked ~ .pajaro6 span
+{
+  display:block;
+  
+}
+
+.pajaro{   
+  position:absolute;
+  left:0;  
+  cursor:crosshair;
+}
+.pajaro>span{
+  display:none;position:absolute; z-index:2; left:-250%;bottom:-50%;  
+  background-color:white; border:solid 2px #000; width:80px; height:30px; padding:10px; border-radius:50%;
+}
+.pajaro>span:before{
+  content:"I'm Dead!"; color:red; font-weight:bold;
+}
+
+.pajaro1{top:50px;
+  animation-delay: -2s!important;
+  transform:scale(0.9);
+}
+.pajaro2{
+  top:100px;
+  animation-delay: -4s!important;
+  transform:scale(0.5); 
+}
+.pajaro3{
+  top:200px;
+  animation-delay: -3s!important;
+  transform:scale(1.4); 
+}
+
+.pajaro4{top:50px;
+  animation-delay: -12s!important;
+  transform:scale(0.9);
+}
+.pajaro5{
+  top:100px;
+  animation-delay: -16s!important;
+  transform:scale(0.5); 
+}
+.pajaro6{
+  top:200px;
+  animation-delay: -20s!important;
+  transform:scale(1.4); 
+}
+
+@keyframes move{
+0%{left:0%;}
+20%{left:20%;top:50%; }
+40%{top:30%; left:60%;}
+60%{top:80%;left:80%;}
+80%{top:10%; left:20%:}
+100%{top:30%; left:20%; }
+}
+
+
+.timer{
+  background-color:#333; width:300px;height:50px;
+  position:fixed;
+}
+
+
+.timer span{
+  display:block;
+  background:repeating-linear-gradient(-45deg, #000, rgba(0, 0, 0, 0) 25px, #FFF 25px, #FFF 50px);
+  width:300px; height:50px;
+  animation:timer 20s linear;
+}
+
+.timer span:before{  
+  content:"TIME LEFT";
+  display:block;
+  position:absolute; z-index:3;
+  left:0; 
+  right:0;
+  top:0;
+  bottom:0;
+  text-align:center;
+  line-height:50px;
+  font-size:25px;
+  color:red;
+}
+@keyframes timer{
+0%{width:10px;}
+100%{width:300px; display:block;}
+}
+
+
+.gameover{
+  position:fixed; z-index:100000; left:0; top:0; bottom:0; right:0; background-color:rgba(0,0,0,0.8);
+  animation:gameover 20s linear forwards;
+  font-size:80px; color:white; font-weight:bold; text-align:center; 
+  text-indent:0;  
+  line-height:500px;
+}
+
+@keyframes gameover{
+0%{left:-5000px;bottom:100%;}
+97%{left:-5000px;bottom:100%;}
+100%{ left:0px;}
+}
+
+footer{position:fixed; left:0; bottom:0;}
+
+
+
+
+/*------------------------------------------------------ body of the bird
+*/
+
+.pajaro{
+  background:black;
+  border-radius: 50% 50% 20% 20%;
+  color:white;
+  line-height:20px;
+  letter-spacing: 2px;
+  font-size:0.8em;
+  text-align:center;
+  position:absolute;
+ 
+  margin-top:-20px; margin-left:-10px;
+  width:15px; height:15px;
+  animation:planeo 0.8s linear infinite;
+  z-index:999;
+}
+
+.pajaro:after,
+.pajaro:before{
+  content:"";
+  position:absolute;
+  top:50%; left:50%;
+}
+
+/*------------------------------------------------------ bird wings
+*/
+
+.pajaro:after{
+  border-radius: 100% 100% 0 0;
+  box-shadow: inset 0px 5px 0 black;
+  width:100px; height:100px;
+  margin-top:-7px; margin-left:-50px;
+  transform-origin: 100% 0%;
+  animation:alas 3s linear infinite;
+}
+
+/*------------------------------------------------------ bird beak
+*/
+
+.pajaro:before{
+  background:#FFC37F;
+  border-radius: 100% 0% 20% 0%;
+  margin-top:3px; margin-left:-4px;
+  width:6px; height:6px;
+  transform:rotateZ(45deg);
+}
+
+/*------------------------------------------------------ wings animation
+*/
+
+@keyframes alas {
+  50%{
+    transform:rotateX(-1440deg);
+  }
+}
+
+/*------------------------------------------------------ bird animation
+*/
+
+@keyframes planeo {
+  40%{
+    transform:rotateZ(2deg) translateX(2px) translateY(10px) translateZ(0);
+    line-height:16px;
+    font-size:0.6em;
+  }
+  80%{
+    transform:rotateZ(-2deg) translateX(5px) translateY(8px) translateZ(0);
+  }
+}</style> 
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="wrapper">
+  <div class="timer">
+       <span></span>    
+  </div>
+
+  <div class="gameover">SEDIH</div>
+
+
+
+  <h1>Game gak jelas memang !!</h1>
+
+<p>
+
+Cara Bermain
+<br>
+
+  <img src="images/mouse.png"  style= ”float:left;”  width="100">
+  <br>
+Gunakan MOUSE mengenai burung untuk menambah score anda <br><br>
+
+  <img src="images/key.png"  style= ”float:left;”  width="100">
+  <br>
+Gunakan CURSOR KEY  untuk menggerakan mobil pastikan perjalan anda mulus <br>
+<br>Pastikan anda tidak kehabisan waktu 
+<br>
+<br> Game ini hanya bisa di mainkan 
+ satu kali seumur hidup 
+</p>
+
+
+  <input class="input-circle input-circle1" type="radio" id="circle1" >
+ <input class="input-circle input-circle2" type="radio" id="circle2" >
+ <input class="input-circle input-circle3" type="radio" id="circle3" >
+ <input class="input-circle input-circle4" type="radio" id="circle4" >
+ <input class="input-circle input-circle5" type="radio" id="circle5" >
+ <input class="input-circle input-circle6" type="radio" id="circle6" >
+  
+  <label for="circle1" class="pajaro pajaro1"><span></span></label>
+  <label for="circle2" class="pajaro pajaro2"><span></span></label>
+  <label for="circle3" class="pajaro pajaro3"><span></span></label>
+  <label for="circle4" class="pajaro pajaro4"><span></span></label>
+  <label for="circle5" class="pajaro pajaro5"><span></span></label>
+  <label for="circle6" class="pajaro pajaro6"><span></span></label>
+  <div class="sum">SCORE:</div>
+  
+  <canvas height="500" width="750"></canvas>
+</div>
+<!-- partial -->
+  <script >var $ = {
+      canvas: null,
+      ctx: null,
+      canvas2: null,
+      ctx2: null,
+      colors: {
+        sky: "#D4F5FE",
+        mountains: "#83CACE",
+        ground: "#8FC04C",
+        groundDark: "#73B043",
+        road: "#606a7c",
+        roadLine: "#FFF",
+        hud: "#FFF"
+      },
+      settings: {
+        fps: 60,
+        skySize: 120,
+        ground: {
+          size: 350,
+          min: 4,
+          max: 120
+        },
+        road: {
+          min: 76,
+          max: 700,
+        }
+      },
+      state: {
+        bgpos: 0,
+        offset: 0,
+        startDark: true,
+        curve: 0,
+        currentCurve: 0,
+        turn: 1,
+        speed: 27,
+        xpos: 0,
+        section: 50,
+        car: {
+          maxSpeed: 50,
+          friction: 0.4,
+          acc: 0.85,
+          deAcc: 0.5
+        },
+        keypress: {
+          up: false,
+          left: false,
+          right: false,
+          down: false
+        }
+      },
+      storage: {
+        bg: null
+      }
+    };
+$.canvas = document.getElementsByTagName('canvas')[0];
+$.ctx = $.canvas.getContext('2d');
+$.canvas2 = document.createElement('canvas');
+$.canvas2.width = $.canvas.width;
+$.canvas2.height = $.canvas.height;
+$.ctx2 = $.canvas2.getContext('2d');
+window.addEventListener("keydown", keyDown, false);
+window.addEventListener("keyup", keyUp, false);
+
+drawBg();
+draw();
+
+function draw() {
+  setTimeout(function() {
+    calcMovement();
+    
+    //if($.state.speed > 0) {
+      $.state.bgpos += ($.state.currentCurve * 0.02) * ($.state.speed * 0.2);
+      $.state.bgpos = $.state.bgpos % $.canvas.width;
+      
+      $.ctx.putImageData($.storage.bg, $.state.bgpos, 5);
+      $.ctx.putImageData($.storage.bg, $.state.bgpos > 0 ? $.state.bgpos - $.canvas.width : $.state.bgpos + $.canvas.width, 5);
+    //}
+    
+    $.state.offset += $.state.speed * 0.05;
+    if($.state.offset > $.settings.ground.min) {
+      $.state.offset = $.settings.ground.min - $.state.offset;
+      $.state.startDark = !$.state.startDark;
+    }
+    drawGround($.ctx, $.state.offset, $.colors.ground, $.colors.groundDark, $.canvas.width);
+    
+    drawRoad($.settings.road.min + 6, $.settings.road.max + 36, 10, $.colors.roadLine);
+    drawGround($.ctx2, $.state.offset, $.colors.roadLine, $.colors.road, $.canvas.width);
+    drawRoad($.settings.road.min, $.settings.road.max, 10, $.colors.road);
+    drawRoad(3, 24, 0, $.ctx.createPattern($.canvas2, 'repeat'));
+    drawCar();
+    drawHUD($.ctx, 630, 340, $.colors.hud);
+    
+    requestAnimationFrame(draw);
+  }, 1000 / $.settings.fps);
+}
+
+function drawHUD(ctx, centerX, centerY, color) {
+  var radius = 50, tigs = [0, 90, 135, 180, 225, 270, 315],
+      angle = 90;
+
+  ctx.beginPath();
+  ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+  ctx.lineWidth = 7;
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+  ctx.fill();
+  ctx.strokeStyle = color;
+  ctx.stroke();
+  
+  for (var i = 0; i < tigs.length; i++) {
+    drawTig(ctx, centerX, centerY, radius, tigs[i], 7);
+  }
+  
+  // draw pointer
+  angle = map($.state.speed, 0, $.state.car.maxSpeed, 90, 360);
+  drawPointer(ctx, color, 50, centerX, centerY, angle);
+}
+
+function drawPointer(ctx, color, radius, centerX, centerY, angle) {
+  var point = getCirclePoint(centerX, centerY, radius - 20, angle),
+      point2 = getCirclePoint(centerX, centerY, 2, angle + 90),
+      point3 = getCirclePoint(centerX, centerY, 2, angle - 90);
+  
+  ctx.beginPath();
+  ctx.strokeStyle = "#FF9166";
+  ctx.lineCap = 'round';
+  ctx.lineWidth = 4;
+  ctx.moveTo(point2.x, point2.y);
+  ctx.lineTo(point.x, point.y);
+  ctx.lineTo(point3.x, point3.y);
+  ctx.stroke();
+  
+  ctx.beginPath();
+  ctx.arc(centerX, centerY, 9, 0, 2 * Math.PI, false);
+  ctx.fillStyle = color;
+  ctx.fill();
+}
+
+function drawTig(ctx, x, y, radius, angle, size) {
+  var startPoint = getCirclePoint(x, y, radius - 4, angle),
+      endPoint = getCirclePoint(x, y, radius - size, angle)
+  
+  ctx.beginPath();
+  ctx.lineCap = 'round';
+  ctx.moveTo(startPoint.x, startPoint.y);
+  ctx.lineTo(endPoint.x, endPoint.y);
+  ctx.stroke();
+}
+
+function getCirclePoint(x, y, radius, angle) {
+    var radian = (angle / 180) * Math.PI;
+  
+    return {
+      x: x + radius * Math.cos(radian),
+      y: y + radius * Math.sin(radian)
+    }
+}
+
+function calcMovement() {
+  var move = $.state.speed * 0.01,
+      newCurve = 0;
+  
+  if($.state.keypress.up) {
+    $.state.speed += $.state.car.acc - ($.state.speed * 0.015);
+  } else if ($.state.speed > 0) {
+    $.state.speed -= $.state.car.friction;
+  }
+  
+  if($.state.keypress.down && $.state.speed > 0) {
+    $.state.speed -= 1;
+  }
+  
+  // Left and right
+  $.state.xpos -= ($.state.currentCurve * $.state.speed) * 0.005;
+  
+  if($.state.speed) {
+    if($.state.keypress.left) {
+      $.state.xpos += (Math.abs($.state.turn) + 7 + ($.state.speed > $.state.car.maxSpeed / 4 ? ($.state.car.maxSpeed - ($.state.speed / 2)) : $.state.speed)) * 0.2;
+      $.state.turn -= 1;
+    }
+  
+    if($.state.keypress.right) {
+      $.state.xpos -= (Math.abs($.state.turn) + 7 + ($.state.speed > $.state.car.maxSpeed / 4 ? ($.state.car.maxSpeed - ($.state.speed / 2)) : $.state.speed)) * 0.2;
+      $.state.turn += 1;
+    }
+    
+    if($.state.turn !== 0 && !$.state.keypress.left && !$.state.keypress.right) {
+      $.state.turn += $.state.turn > 0 ? -0.25 : 0.25;
+    }
+  }
+  
+  $.state.turn = clamp($.state.turn, -5, 5);
+  $.state.speed = clamp($.state.speed, 0, $.state.car.maxSpeed);
+  
+  // section
+  $.state.section -= $.state.speed;
+  
+  if($.state.section < 0) {
+    $.state.section = randomRange(1000, 9000);
+    
+    newCurve = randomRange(-50, 50);
+    
+    if(Math.abs($.state.curve - newCurve) < 20) {
+      newCurve = randomRange(-50, 50);
+    }
+    
+    $.state.curve = newCurve;
+  }
+  
+  if($.state.currentCurve < $.state.curve && move < Math.abs($.state.currentCurve - $.state.curve)) {
+    $.state.currentCurve += move;
+  } else if($.state.currentCurve > $.state.curve && move < Math.abs($.state.currentCurve - $.state.curve)) {
+    $.state.currentCurve -= move;
+  }
+  
+  if(Math.abs($.state.xpos) > 550) {
+    $.state.speed *= 0.96;
+  }
+  
+  $.state.xpos = clamp($.state.xpos, -650, 650);
+}
+
+function keyUp(e) {
+    move(e, false);
+}
+
+function keyDown(e) {
+    move(e, true);
+}
+
+function move(e, isKeyDown) {
+  if(e.keyCode >= 37 && e.keyCode <= 40) {
+    e.preventDefault();
+  }
+
+  if(e.keyCode === 37) {
+    $.state.keypress.left = isKeyDown;
+  } 
+
+  if(e.keyCode === 38) {
+    $.state.keypress.up = isKeyDown;
+  } 
+
+  if(e.keyCode === 39) {
+    $.state.keypress.right = isKeyDown;
+  } 
+
+  if(e.keyCode === 40) {
+    $.state.keypress.down = isKeyDown;
+  }
+}
+
+function randomRange(min, max) {
+  return min + Math.random() * (max - min);
+}
+
+function norm(value, min, max) {
+  return (value - min) / (max - min);
+}
+
+function lerp(norm, min, max) {
+  return (max - min) * norm + min;
+}
+
+function map(value, sourceMin, sourceMax, destMin, destMax) {
+  return lerp(norm(value, sourceMin, sourceMax), destMin, destMax);
+}
+
+function clamp(value, min, max) {
+  return Math.min(Math.max(value, min), max);
+}
+
+function drawBg() {
+  $.ctx.fillStyle = $.colors.sky;
+  $.ctx.fillRect(0, 0, $.canvas.width, $.settings.skySize);
+  drawMountain(0, 60, 200);
+  drawMountain(280, 40, 200);
+  drawMountain(400, 80, 200);
+  drawMountain(550, 60, 200);
+  
+  $.storage.bg = $.ctx.getImageData(0, 0, $.canvas.width, $.canvas.height);
+}
+
+function drawMountain(pos, height, width) {
+  $.ctx.fillStyle = $.colors.mountains;
+  $.ctx.strokeStyle = $.colors.mountains;
+  $.ctx.lineJoin = "round";
+  $.ctx.lineWidth = 20;
+  $.ctx.beginPath();
+  $.ctx.moveTo(pos, $.settings.skySize);
+  $.ctx.lineTo(pos + (width / 2), $.settings.skySize - height);
+  $.ctx.lineTo(pos + width, $.settings.skySize);
+  $.ctx.closePath();
+  $.ctx.stroke();
+  $.ctx.fill();
+}
+
+function drawSky() {
+  $.ctx.fillStyle = $.colors.sky;
+  $.ctx.fillRect(0, 0, $.canvas.width, $.settings.skySize);
+}
+
+function drawRoad(min, max, squishFactor, color) {
+  var basePos = $.canvas.width + $.state.xpos;
+  
+  $.ctx.fillStyle = color;
+  $.ctx.beginPath();
+  $.ctx.moveTo(((basePos + min) / 2) - ($.state.currentCurve * 3), $.settings.skySize);
+  $.ctx.quadraticCurveTo((((basePos / 2) + min)) + ($.state.currentCurve / 3) + squishFactor, $.settings.skySize + 52, (basePos + max) / 2, $.canvas.height);
+  $.ctx.lineTo((basePos - max) / 2, $.canvas.height);
+  $.ctx.quadraticCurveTo((((basePos / 2) - min)) + ($.state.currentCurve / 3) - squishFactor, $.settings.skySize + 52, ((basePos - min) / 2) - ($.state.currentCurve * 3), $.settings.skySize);
+  $.ctx.closePath();
+  $.ctx.fill();
+}
+
+function drawCar() {
+  var carWidth = 160,
+      carHeight = 50,
+      carX = ($.canvas.width / 2) - (carWidth / 2),
+      carY = 320;
+  
+  // shadow
+  roundedRect($.ctx, "rgba(0, 0, 0, 0.35)", carX - 1 + $.state.turn, carY + (carHeight - 35), carWidth + 10, carHeight, 9);
+  
+  // tires
+  roundedRect($.ctx, "#111", carX, carY + (carHeight - 30), 30, 40, 6);
+  roundedRect($.ctx, "#111", (carX - 22) + carWidth, carY + (carHeight - 30), 30, 40, 6);
+  
+  drawCarBody($.ctx);
+}
+
+function drawCarBody(ctx) {
+  var startX = 299, startY = 311,
+      lights = [10, 26, 134, 152],
+      lightsY = 0;
+  
+  /* Front */
+  roundedRect($.ctx, "#C2C2C2", startX + 6 + ($.state.turn * 1.1), startY - 18, 146, 40, 18);
+  
+  ctx.beginPath(); 
+  ctx.lineWidth="12";
+  ctx.fillStyle="#FFFFFF";
+  ctx.strokeStyle="#FFFFFF";
+  ctx.moveTo(startX + 30, startY);
+  ctx.lineTo(startX + 46 + $.state.turn, startY - 25);
+  ctx.lineTo(startX + 114 + $.state.turn, startY - 25);
+  ctx.lineTo(startX + 130, startY);
+  ctx.fill();
+  ctx.stroke();
+  /* END: Front */
+  
+  ctx.lineWidth="12";
+  ctx.lineCap = 'round';
+  ctx.beginPath(); 
+  ctx.fillStyle="#DEE0E2";
+  ctx.strokeStyle="#DEE0E2";
+  ctx.moveTo(startX + 2, startY + 12 + ($.state.turn * 0.2));
+  ctx.lineTo(startX + 159, startY + 12 + ($.state.turn * 0.2));
+  ctx.quadraticCurveTo(startX + 166, startY + 35, startX + 159, startY + 55 + ($.state.turn * 0.2));
+  ctx.lineTo(startX + 2, startY + 55 - ($.state.turn * 0.2));
+  ctx.quadraticCurveTo(startX - 5, startY + 32, startX + 2, startY + 12 - ($.state.turn * 0.2));
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.beginPath(); 
+  ctx.lineWidth="12";
+  ctx.fillStyle="#DEE0E2";
+  ctx.strokeStyle="#DEE0E2";
+  ctx.moveTo(startX + 30, startY);
+  ctx.lineTo(startX + 40 + ($.state.turn * 0.7), startY - 15);
+  ctx.lineTo(startX + 120 + ($.state.turn * 0.7), startY - 15);
+  ctx.lineTo(startX + 130, startY);
+  ctx.fill();
+  ctx.stroke();
+  
+  roundedRect(ctx, "#474747", startX - 4, startY, 169, 10, 3, true, 0.2);
+  roundedRect(ctx, "#474747", startX + 40, startY + 5, 80, 10, 5, true, 0.1);
+  
+  ctx.fillStyle = "#FF9166";
+  
+  lights.forEach(function(xPos) {
+    ctx.beginPath();
+    ctx.arc(startX + xPos, startY + 20 + lightsY, 6, 0, Math.PI*2, true); 
+    ctx.closePath();
+    ctx.fill();
+    lightsY += $.state.turn * 0.05;
+  });
+  
+  ctx.lineWidth="9";
+  ctx.fillStyle="#222222";
+  ctx.strokeStyle="#444";
+  
+  roundedRect($.ctx, "#FFF", startX + 60, startY + 25, 40, 18, 3, true, 0.05);
+}
+
+function roundedRect(ctx, color, x, y, width, height, radius, turn, turneffect) {
+  var skew = turn === true ? $.state.turn * turneffect : 0;
+  
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.moveTo(x + radius, y - skew);
+  
+  // top right
+  ctx.lineTo(x + width - radius, y + skew);
+  ctx.arcTo(x + width, y + skew, x + width, y + radius + skew, radius);
+  ctx.lineTo(x + width, y + radius + skew);
+  
+  // down right
+  ctx.lineTo(x + width, (y + height + skew) - radius);
+  ctx.arcTo(x + width, y + height + skew, (x + width) - radius, y + height + skew, radius);
+  ctx.lineTo((x + width) - radius, y + height + skew);
+  
+  // down left
+  ctx.lineTo(x + radius, y + height - skew);
+  ctx.arcTo(x, y + height - skew, x, (y + height - skew) - radius, radius);
+  ctx.lineTo(x, (y + height - skew) - radius);
+  
+  // top left
+  ctx.lineTo(x, y + radius - skew);
+  ctx.arcTo(x, y - skew, x + radius, y - skew, radius);
+  ctx.lineTo(x + radius, y - skew);
+  ctx.fill();
+}
+
+function drawGround(ctx, offset, lightColor, darkColor, width) {
+  var pos = ($.settings.skySize - $.settings.ground.min) + offset, stepSize = 1, drawDark = $.state.startDark, firstRow = true;
+  ctx.fillStyle = lightColor;
+  ctx.fillRect(0, $.settings.skySize, width, $.settings.ground.size);
+
+  ctx.fillStyle =  darkColor;
+  while(pos <= $.canvas.height) {
+    stepSize = norm(pos, $.settings.skySize, $.canvas.height) * $.settings.ground.max;
+    if(stepSize < $.settings.ground.min) {
+      stepSize = $.settings.ground.min;
+    }
+  
+    if(drawDark) {
+      if(firstRow) {
+        ctx.fillRect(0, $.settings.skySize, width, stepSize - (offset > $.settings.ground.min ? $.settings.ground.min : $.settings.ground.min - offset));
+      } else {
+        ctx.fillRect(0, pos < $.settings.skySize ? $.settings.skySize : pos, width, stepSize);
+      }
+    }
+    
+    firstRow = false;
+    pos += stepSize;
+    drawDark = !drawDark;
+  }
+}</script>
+
+</body>
+</html>
